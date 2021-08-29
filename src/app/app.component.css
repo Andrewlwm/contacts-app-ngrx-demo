@@ -1,0 +1,9 @@
+mat-nav-list {
+  padding: 0;
+  min-width: 150px;
+}
+
+.active {
+  background-color: #c2c7e6 !important;
+  color: #5363bc !important;
+}

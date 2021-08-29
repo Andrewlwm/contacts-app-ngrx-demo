@@ -10,7 +10,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { metaReducers, reducers } from './store/reducers';
-import { materialImports } from './material-imports';
+import { MaterialModule } from 'src/material/material.module';
+import { RouterEffects } from './store/effects/router.effects';
+import { AuthModule } from 'src/auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,12 +24,13 @@ import { materialImports } from './material-imports';
     StoreRouterConnectingModule.forRoot({
       routerState: RouterState.Minimal,
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([RouterEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    ...materialImports,
+    MaterialModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

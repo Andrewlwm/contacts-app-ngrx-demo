@@ -1,7 +1,36 @@
 <mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span style="flex: 1 1"></span>
-    <a mat-button routerLink="/login">Log in</a>
+  <mat-toolbar-row fxLayoutAlign="end center">
+    <a *ngIf="!(user$ | async); else loggedIn" mat-button routerLink="/login"
+      >Log in</a
+    >
+    <ng-template #loggedIn>
+      <button mat-button (click)="logout()">Log out</button>
+    </ng-template>
   </mat-toolbar-row>
 </mat-toolbar>
-<router-outlet></router-outlet>
+
+<mat-drawer-container style="height: calc(100% - 64px)">
+  <mat-drawer mode="side" opened>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/contacts/new" routerLinkActive="active"
+        >Add</a
+      >
+      <a
+        mat-list-item
+        routerLink="/contacts"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Contacts</a
+      >
+      <a
+        mat-list-item
+        routerLink="/contacts/favourites"
+        routerLinkActive="active"
+        >Favourites</a
+      >
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
