@@ -1,0 +1,12 @@
+<div fxLayoutAlign="center center" style="padding: 1rem 1rem 0 1rem">
+  <mat-form-field appearance="outline" fxFill>
+    <input
+      matInput
+      [(ngModel)]="searchField"
+      placeholder="Search..."
+      (ngModelChange)="searched($event)"
+      autocomplete="off"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>

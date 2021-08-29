@@ -1,0 +1,45 @@
+<div class="container" fxLayoutAlign="center center">
+  <mat-card fxLayout="row wrap">
+    <mat-card-content>
+      <form [formGroup]="contactForm" (ngSubmit)="submit()">
+        <mat-form-field fxFlexFill>
+          <mat-label> Nume </mat-label>
+          <input matInput formControlName="name" />
+          <mat-error *ngIf="contactForm.hasError('required', 'name')">
+            Numele nu poate fi gol
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlexFill>
+          <mat-label> Email </mat-label>
+          <input matInput formControlName="email" />
+          <mat-error *ngIf="contactForm.hasError('required', 'email')">
+            Emailul nu poate fi gol
+          </mat-error>
+          <mat-error *ngIf="contactForm.hasError('email', 'email')">
+            Emailul trebuie să fie valid
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlexFill>
+          <mat-label> Numărul de telefon </mat-label>
+          <input matInput formControlName="phoneNumber" />
+          <mat-error *ngIf="contactForm.hasError('required', 'phoneNumber')">
+            Numărul de telefon nu poate fi gol
+          </mat-error>
+          <mat-error *ngIf="contactForm.hasError('pattern', 'phoneNumber')">
+            Numărul de telefon trebuie să fie valid
+          </mat-error>
+        </mat-form-field>
+        <div fxLayoutAlign="center center">
+          <button
+            style="width: 150px; margin-top: 15px"
+            mat-raised-button
+            color="primary"
+            type="submit"
+          >
+            Salvează
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

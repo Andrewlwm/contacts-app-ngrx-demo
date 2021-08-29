@@ -1,0 +1,39 @@
+<h1 mat-dialog-title class="t-center">
+  Confirmare adăugare la contacte favorite
+</h1>
+<div mat-dialog-content class="t-center">
+  <p>
+    Persoana <b>{{data.name}}</b>
+    {{!data.favourite ? 'va fi adăugată în':'va fi elimitată din'}} lista
+    contactelor favorite.
+  </p>
+</div>
+<div mat-dialog-actions class="m-auto">
+  <div class="m-auto">
+    <button class="btn-100" mat-raised-button (click)="onNoClick()">
+      Anulare
+    </button>
+    <button
+      class="btn-100"
+      mat-raised-button
+      color="accent"
+      (click)="confirmFavourite()"
+      cdkFocusInitial
+    >
+      Confirmare
+    </button>
+  </div>
+</div>
+
+<style>
+  .btn-100 {
+    width: 100px;
+  }
+  .t-center {
+    text-align: center;
+  }
+  .m-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>

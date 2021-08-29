@@ -1,0 +1,8 @@
+<div fxLayout="column" fxFill>
+  <app-search-form (search)="loadSearches($event)"></app-search-form>
+  <app-contacts-table
+    [contacts]="contacts"
+    (favorite)="toggleFavourite($event)"
+    (delete)="deleteContact($event)"
+  ></app-contacts-table>
+</div>
