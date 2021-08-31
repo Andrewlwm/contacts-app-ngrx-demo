@@ -69,8 +69,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    const { valid, value } = this.contactForm;
-    const { ...contact } = value;
+    const { valid, value: contact } = this.contactForm;
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
     if (valid) {
       if (this.isNew) {
