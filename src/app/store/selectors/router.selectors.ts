@@ -3,7 +3,8 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export const selectRouter = createFeatureSelector<RouterReducerState>('router');
 
-export const { selectRouteParams, selectUrl } = getSelectors(selectRouter);
+export const { selectRouteParams, selectUrl, selectQueryParam } =
+  getSelectors(selectRouter);
 export const selectContactId = createSelector(
   selectRouteParams,
   ({ id }) => id

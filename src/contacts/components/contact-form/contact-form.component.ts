@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { EMPTY, Subject } from 'rxjs';
 import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { Go } from 'src/app/store/actions/router.actions';
-import { selectContactId } from 'src/app/store/selectors/router.selectors';
+import {
+  selectContactId,
+  selectQueryParam,
+} from 'src/app/store/selectors/router.selectors';
 import { generateId } from 'src/contacts/contact';
 import {
   addContact,
@@ -37,11 +39,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
     favourite: [false],
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private store: Store,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnDestroy(): void {
     this.notifier$.next();
@@ -70,7 +68,12 @@ export class ContactFormComponent implements OnInit, OnDestroy {
 
   submit() {
     const { valid, value: contact } = this.contactForm;
-    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    let returnUrl: string | undefined;
+    this.store
+      .select(selectQueryParam('returnUrl'))
+      .pipe(take(1))
+      .subscribe((value) => (returnUrl = value));
+
     if (valid) {
       if (this.isNew) {
         this.store.dispatch(addContact({ contact }));
@@ -78,10 +81,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
         this.store.dispatch(updateContact({ contact }));
       }
     }
-    this.store.dispatch(
-      Go({
-        path: [returnUrl],
-      })
-    );
+
+    this.store.dispatch(Go({ path: [returnUrl] }));
   }
 }
