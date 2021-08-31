@@ -26,7 +26,7 @@ export class ContactsService {
   }
 
   updateContact(contact: Contact) {
-    this._contacts[contact.id] = contact;
+    this._contacts = [...this._contacts, contact];
     return of(contact);
   }
 

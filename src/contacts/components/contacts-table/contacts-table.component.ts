@@ -10,6 +10,7 @@ import { Contact } from 'src/contacts/contact';
 })
 export class ContactsTableComponent {
   @Input() contacts!: Observable<Contact[]>;
+  @Input() returnUrl!: string | null;
   columnsToDisplay = ['name', 'email', 'phoneNumber', 'actions'];
   @Output() favorite = new EventEmitter<Contact>();
   @Output() delete = new EventEmitter<Contact>();

@@ -74,6 +74,19 @@ export class ContactsEffects {
     )
   );
 
+  updateContact$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContactsActions.updateContact),
+      switchMap(({ contact }) => {
+        return this.contactsService.updateContact(contact).pipe(
+          map((contact) => {
+            return ContactsActions.updateContactSucces({ contact });
+          })
+        );
+      })
+    )
+  );
+
   saveChanges$ = createEffect(
     () =>
       this.actions$.pipe(

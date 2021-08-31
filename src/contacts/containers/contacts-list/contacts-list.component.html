@@ -2,6 +2,7 @@
   <app-search-form (search)="loadSearches($event)"></app-search-form>
   <app-contacts-table
     [contacts]="contacts"
+    [returnUrl]="returnUrl | async"
     (favorite)="toggleFavourite($event)"
     (delete)="deleteContact($event)"
   ></app-contacts-table>

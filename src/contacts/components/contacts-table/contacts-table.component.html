@@ -25,7 +25,11 @@
             contact.favourite ? "star" : "star_border"
           }}</mat-icon>
         </button>
-        <a mat-icon-button [routerLink]="['/contacts/', contact.id]">
+        <a
+          mat-icon-button
+          [routerLink]="['/contacts/', contact.id]"
+          [queryParams]="{ returnUrl }"
+        >
           <mat-icon>edit</mat-icon>
         </a>
         <button mat-icon-button (click)="deleteContact(contact)">

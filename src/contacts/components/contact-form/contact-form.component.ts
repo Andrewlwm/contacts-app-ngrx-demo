@@ -1,12 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { EMPTY, Subject } from 'rxjs';
 import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { Go } from 'src/app/store/actions/router.actions';
 import { selectContactId } from 'src/app/store/selectors/router.selectors';
-import { Contact, generateId } from 'src/contacts/contact';
-import { addContact } from 'src/contacts/store/actions/contacts.actions';
+import { generateId } from 'src/contacts/contact';
+import {
+  addContact,
+  updateContact,
+} from 'src/contacts/store/actions/contacts.actions';
 import { selectContact } from 'src/contacts/store/selectors/selectors.effects';
 
 @Component({
@@ -16,6 +20,7 @@ import { selectContact } from 'src/contacts/store/selectors/selectors.effects';
 })
 export class ContactFormComponent implements OnInit, OnDestroy {
   notifier$ = new Subject();
+  isNew = true;
   contactForm = this.fb.group({
     id: [generateId()],
     name: ['', Validators.required],
@@ -29,9 +34,14 @@ export class ContactFormComponent implements OnInit, OnDestroy {
         ),
       ],
     ],
+    favourite: [false],
   });
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnDestroy(): void {
     this.notifier$.next();
@@ -48,6 +58,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
             return this.store.select(selectContact(id)).pipe(
               tap((contact) => {
                 this.contactForm.patchValue(contact);
+                this.isNew = false;
               }),
               take(1)
             );
@@ -59,12 +70,19 @@ export class ContactFormComponent implements OnInit, OnDestroy {
 
   submit() {
     const { valid, value } = this.contactForm;
-    const { ...props } = value;
-    const contact: Contact = {
-      ...props,
-      favourite: false,
-    };
-    if (valid) this.store.dispatch(addContact({ contact }));
-    this.store.dispatch(Go({ path: ['/contacts'] }));
+    const { ...contact } = value;
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    if (valid) {
+      if (this.isNew) {
+        this.store.dispatch(addContact({ contact }));
+      } else {
+        this.store.dispatch(updateContact({ contact }));
+      }
+    }
+    this.store.dispatch(
+      Go({
+        path: [returnUrl],
+      })
+    );
   }
 }

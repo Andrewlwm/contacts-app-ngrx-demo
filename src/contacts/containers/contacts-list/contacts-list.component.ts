@@ -3,7 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { selectIsFavourite } from 'src/app/store/selectors/router.selectors';
+import {
+  selectIsFavourite,
+  selectUrl,
+} from 'src/app/store/selectors/router.selectors';
 import { Contact } from 'src/contacts/contact';
 import {
   favouriteContact,
@@ -26,6 +29,7 @@ import { ConfirmFavouriteDialog } from './dialogs/confirm-favourite-dialog/confi
 export class ContactsListComponent implements OnInit, OnDestroy {
   notifier$ = new Subject();
   contacts!: Observable<Contact[]>;
+  returnUrl = this.store.select(selectUrl);
   constructor(private store: Store, public dialog: MatDialog) {}
 
   ngOnDestroy(): void {
